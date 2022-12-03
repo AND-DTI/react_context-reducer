@@ -7,3 +7,11 @@ git remote add origin https://github.com/AND-DTI/react_context-reducer.git
 git branch -M main
 
 git push -u origin main
+
+
+
+
+
+
+git remote -v
+git branch -r 
