@@ -34,8 +34,7 @@ const Gantt1 = () => {
         <div>
           <GraphContextProvider2>          
             <GanttDraw />                           
-          </GraphContextProvider2>
-          
+          </GraphContextProvider2>          
         </div>
     )
 

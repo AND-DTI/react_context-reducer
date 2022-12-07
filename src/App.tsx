@@ -3,7 +3,8 @@ import React from 'react';
 import './App.css';
 
 
-import Gantt1 from './views/gantt1/Grantt1';
+
+import PageExample_Context from './views/example_context/PageExample_Context';
 
 
 
@@ -11,7 +12,7 @@ import Gantt1 from './views/gantt1/Grantt1';
 function App() {
   return (
     <div className='App'>
-      <Gantt1 />    
+      <PageExample_Context />    
     </div>
   );
 }
