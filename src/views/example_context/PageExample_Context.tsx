@@ -1,5 +1,6 @@
-import GanttDraw from './PageDraw'
-import { AppContextProvider, AppContextProvider2 } from './Context_Example'
+import  { PageDraw_SingleReducerContext, PageDraw_MultiReducerContext }  from './PageDraw'
+import { AppContextProvider as SingleProvider } from './Context_Example_SingleReducer'
+import { AppContextProvider as MultiProvider } from './Context_Example_MultiReducer'
 
 
 
@@ -9,9 +10,15 @@ const PageExample_Context = () => {
          
     return (
         <div>
-          <AppContextProvider2>          
-            <GanttDraw />                           
-          </AppContextProvider2>          
+
+          <SingleProvider>
+            <PageDraw_SingleReducerContext />
+          </SingleProvider>
+          <br />
+          <MultiProvider>
+            <PageDraw_MultiReducerContext />
+          </MultiProvider>          
+
         </div>
     )
 

@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef } from 'react'
 import styled from 'styled-components'
 import 'components/styles.css'
 import './styles.css'
-import { AppContext, AppContext2 } from './Context_Example'
+import { AppContext as AppContext_Single} from './Context_Example_SingleReducer'
 import TextField from '@mui/material/TextField';
 
 
@@ -28,10 +28,22 @@ const ButtonForm = styled.button`
 }
 `
 
-const GanttDraw = () => {
+const PageDraw_SingleReducerContext = () => {
+
+  return ( 
+    <h1> Example Single-Reducer Context </h1> 
+  )
+
+}
+
+
+
+
+const PageDraw_MultiReducerContext = () => {
    
-  
-    //const { state, dispatch } = useContext(AppContext)
+  return ( 
+    <h1> Example Multi-Reducer Context </h1> 
+  /*  
     const { state, dispatch } = useContext(AppContext2)
 
     function increment () {  dispatch ( {type: "increment"} )  }
@@ -41,7 +53,19 @@ const GanttDraw = () => {
     //Input Sample:    
     let [field1Value, setField1Value] = useState("")
     console.log(state)
-    return (   <h1>Drawing Page...{state.object1.counter}</h1>
+    return (  
+      <div>
+        <h1>Drawing Page...</h1>
+        <div style={{fontSize: "0.65em"}}>
+          <label>counter: {state.object1.counter} </label><br/>
+          <label>field1: {state.object1.field1} </label><br/>
+          <label>id: {state.object2.id} </label><br/>
+          <label>id: {state.object2.username} </label><br/>
+          </div>
+      </div> 
+
+*/
+
 /*
         <div>
           <h1>Drawing Page...</h1>
@@ -75,7 +99,7 @@ const GanttDraw = () => {
 }
 
 
-export default GanttDraw
+export { PageDraw_SingleReducerContext, PageDraw_MultiReducerContext }
 
 /*
  <TextField variant="outlined"  label="Direct update"  value={state.field1}

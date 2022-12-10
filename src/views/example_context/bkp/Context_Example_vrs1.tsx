@@ -135,8 +135,22 @@ interface AppContextType2 {
     state: ProfileState,
     dispatch: React.Dispatch<any>
 }
+
+const INITIAL_STATE = {
+
+    object1: {
+        field1: "default text with Reducer!",
+        counter: -1
+    },
+    object2: {
+        id: 0,
+        username: "---"
+    }
+}
+
 const AppContextStateInitial2 = {
-    state: {ExampleObjectInitial, ExampleObject2Initial},
+    //state: {ExampleObjectInitial, ExampleObject2Initial},
+    state: INITIAL_STATE,//{object1: {}, object2: {}},
     dispatch: () => null
 }
 //export const AppContext = createContext<AppContextType>(AppContextStateInitial)
