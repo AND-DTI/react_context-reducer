@@ -22,22 +22,39 @@ type Action =
         | {type: 'sum', payload:number}
 
 function counterReducer (state:Object1Type, action:Action) {   //...(state:any, action:Action) {    
+    
+    let newMax = state.counter > state.max ? state.counter : state.max;
+    let newMin = state.counter < state.min ? state.counter : state.min;
+    
+    let newMaxSum = state.max;
+    let newMinSum = state.min;
+    if(action.type=="sum"){
+        newMaxSum = (state.counter+action.payload) > state.max ? state.counter+action.payload : state.max;
+        newMinSum = (state.counter+action.payload) < state.min ? state.counter+action.payload : state.min;
+    }
+    
     switch(action.type){
-        case "increment": 
-        return {
-            ...state,
-            counter:  state.counter++,  
-        }
-        case "decrement": return {
-            ...state,
-            counter:  state.counter--, 
-        }
+        case "increment":                         
+            return {
+                ...state,                            
+                counter : state.counter++,
+                max     : newMax,
+            }
+        case "decrement":                         
+            return {
+                ...state,                                
+                counter : state.counter--, 
+                min     : newMin,
+            }
         case "sum": return {
             ...state,
-            counter:  state.counter + action.payload, 
+            counter: state.counter + action.payload,             
+            max    : newMaxSum,
+            min    : newMinSum,
         }        
         default: return state
     }    
+    
 }
 
 
