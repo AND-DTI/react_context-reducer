@@ -1,0 +1,17 @@
+/*
+
+<input type="text" ref={field1Ref} />
+<TextField id="outlined-basic" label="Outlined" variant="outlined"   value={field1Value}/>
+<TextField id="filled-basic" label="Filled" variant="filled" />
+<TextField id="standard-basic" label="Standard" variant="standard" />
+
+<h4> Counter: <strong style={ {color:"red"} }>{state.counter}</strong> </h4>
+
+
+propertie from TextField dind't work:
+inputProps={{ 
+         inputMode: 'numeric', pattern: '/^-?\d+(?:\.\d+)?$/g'
+        }} 
+
+
+*/

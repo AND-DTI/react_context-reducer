@@ -37,24 +37,40 @@ type Object2Type = typeof Object2_INITIAL
   
 
 // Reducer Object 1:
-type Action1 = 
-        | {type: 'increment'} 
-        | {type: 'decrement'}
-        | {type: 'sum', payload:number}
+type Action1 = | {type: 'increment'} 
+               | {type: 'decrement'}
+               | {type: 'sum', payload:number}
 
 function counterReducer (state:Object1Type, action:Action1) {   //...(state:any, action:Action) {    
+    
+    let newMax = state.counter > state.max ? state.counter : state.max;
+    let newMin = state.counter < state.min ? state.counter : state.min;
+    
+    let newMaxSum = state.max;
+    let newMinSum = state.min;
+    if(action.type=="sum"){
+        newMaxSum = (state.counter+action.payload) > state.max ? state.counter+action.payload : state.max;
+        newMinSum = (state.counter+action.payload) < state.min ? state.counter+action.payload : state.min;
+    }
+    
     switch(action.type){
-        case "increment": return {
-            ...state,
-            counter:  state.counter++,  
-        }
-        case "decrement": return {
-            ...state,
-            counter:  state.counter--, 
-        }
+        case "increment":                         
+            return {
+                ...state,                            
+                counter : state.counter++,
+                max     : newMax,
+            }
+        case "decrement":                         
+            return {
+                ...state,                                
+                counter : state.counter--, 
+                min     : newMin,
+            }
         case "sum": return {
             ...state,
-            counter:  state.counter + action.payload, 
+            counter: state.counter + action.payload,             
+            max    : newMaxSum,
+            min    : newMinSum,
         }        
         default: return state
     }    
@@ -73,7 +89,7 @@ function fieldsReducer (state:any, action:Action2) {
         }        
         case "setUsername": return {
             ...state,
-            field1:  action.payload, 
+            username:  action.payload, 
         }                    
         case "setField1": return {
             ...state,
@@ -107,35 +123,9 @@ const [profileReducer, initialProfile] = combineReducers<ProfileReducer>({
 
 
 /////////////////////////////////////////////////////////////////////////////////
-// Single object Context / Provider /////////////////////////////////////////////
+// Multi object Context / Provider //////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////
-interface AppContextType {  
-    state: Object1Type,
-    dispatch: React.Dispatch<any>
-}
-const AppContextStateInitial = {
-    state: Object1_INITIAL,
-    dispatch: () => null
-}
-export const AppContext = createContext<AppContextType>(AppContextStateInitial)
-
-
-export const AppContextProvider = ({ children }: IProps) => {
-
-    const [state, dispatch] = useReducer(counterReducer, Object1_INITIAL)    
-        
-    return (
-        <AppContext.Provider value={ {state, dispatch} } >
-            {children}            
-        </AppContext.Provider>
-    )
-
-}
-/////////////////////////////////////////////////////////////////////////////End
-
-
-
-interface AppContextType2 {      
+interface AppContextType {      
     state: ProfileState,
     dispatch: React.Dispatch<any>
 }
@@ -153,14 +143,14 @@ const INITIAL_STATE = {
     }
 }
 
-const AppContextStateInitial2 = {    
+const AppContextStateInitial = {    
     state: INITIAL_STATE,
     dispatch: () => null
 }
 
-export const AppContext2 = createContext<AppContextType2>(AppContextStateInitial2)
+export const AppContext = createContext<AppContextType>(AppContextStateInitial)
 
-export const AppContextProvider2 = ({ children }: IProps) => {
+export const AppContextProvider = ({ children }: IProps) => {
     
     const [state, dispatch] = useReducer<ProfileReducer>(
         profileReducer,
@@ -168,9 +158,9 @@ export const AppContextProvider2 = ({ children }: IProps) => {
     )
 
     return (
-        <AppContext2.Provider value={ {state, dispatch} } >
+        <AppContext.Provider value={ {state, dispatch} } >
             {children}            
-        </AppContext2.Provider>
+        </AppContext.Provider>
     )
 
 }

@@ -3,10 +3,12 @@ import styled from 'styled-components'
 import 'components/styles.css'
 import './styles.css'
 import { AppContext as AppContext_Single} from './Context_Example_SingleReducer'
+import { AppContext as AppContext_Multi} from './Context_Example_MultiReducer'
 import TextField from '@mui/material/TextField';
+import { border } from '@mui/system'
 
 
-
+//#region Styed
 const Card_CST = styled.div`
   margin-top: 25px;
   background: #fff;
@@ -59,12 +61,15 @@ const ButtonAdd = styled.button`
   margin: 1rem;  
 }
 `
+//#endregion
+
+
 const PageDraw_SingleReducerContext = () => {
   
   const { state, dispatch } = useContext(AppContext_Single)
-  function increment ()      {  dispatch ( {type: "increment"} )        }
-  function decrement ()      {  dispatch ( {type: "decrement"} )        }  
-  function somar (n: number) {  dispatch ( {type: "sum", payload: n} )  }
+  function increment ()      {  dispatch ( {type:"increment"} )        }
+  function decrement ()      {  dispatch ( {type:"decrement"} )        }  
+  function somar (n: number) {  dispatch ( {type:"sum", payload: n} )  }
 
   let counterValue = <PositiveValue_CST>{state.counter}</PositiveValue_CST>
   let minValue = <PositiveValue_CST>{state.min}</PositiveValue_CST>
@@ -77,7 +82,7 @@ const PageDraw_SingleReducerContext = () => {
   let [field1Value, setField1Value] = useState(1)
 
   return ( 
-    <Card_CST>     
+    <Card_CST>  
       <h2> Example Single-Reducer Context </h2> 
 
       <div style={{fontSize: "0.85em"}}>
@@ -86,16 +91,14 @@ const PageDraw_SingleReducerContext = () => {
           <label>max: </label>{maxValue}<br/>
       </div>
       
-        <button onClick={() => dispatch({type:"increment"})}> + </button>
-        <button onClick={decrement}> - </button><br/>
+      <button onClick={() => dispatch({type:"increment"})}> + </button>
+      <button onClick={decrement}> - </button><br/>
         
-        <ButtonAdd onClick={() => somar(field1Value) }> Add </ButtonAdd>                                 
-        <TextField variant="outlined"  label="Indirect update" type="number"        
-         onChange = { (ev) => {  setField1Value(Number(ev.target.value)) }} 
-        />
+      <ButtonAdd onClick={() => somar(field1Value) }> Add </ButtonAdd>                                 
+      <TextField variant="outlined"  label="Indirect update" type="number"        
+        onChange = { (ev) => {  setField1Value(Number(ev.target.value)) }} 
+      />
 
-
-      
     </Card_CST>  
   )
 
@@ -106,63 +109,55 @@ const PageDraw_SingleReducerContext = () => {
 
 const PageDraw_MultiReducerContext = () => {
    
-  const { state, dispatch } = useContext(AppContext_Single)
+  const { state, dispatch } = useContext(AppContext_Multi)  
+  function setField1 (text: string) {  dispatch ( {type: "setField1", payload: text} )  }
+  
+  //Input sate:
+  let [sumValue, setSumValue] = useState(0)
+  //let [userNameValue, setUserNameValue] = useState("Zelda")
+  //let [idValue, setIdValue] = useState(1)
+  let [field1Value, setField1Value] = useState("-")
 
+  
   return ( 
     <CardGray_CST>
-    <h2> Example Multi-Reducer Context </h2> 
+      <h2> Example Multi-Reducer Context </h2> 
+   
+
+      <h4 style={{ display:'flex', margin:"10px"}}> Object 1 - Counter:</h4>
+      <div style={{fontSize: "0.85em"}}>
+        <label>counter: </label>{state.object1.counter}<br/>
+        <label>min: </label>{state.object1.min}<br/>
+        <label>max: </label>{state.object1.max}<br/>
+      </div>
+      <button onClick={() => dispatch({type:"increment"})}> + </button>
+      <button onClick={() => dispatch({type:"decrement"})}> - </button>      
+      <ButtonAdd onClick={() => dispatch({type:"sum", payload:sumValue}) }> Add </ButtonAdd>
+      <TextField variant="outlined"  label="Sum(indirect update)" 
+        onChange = { (ev) => {  setSumValue(Number(ev.target.value)) }} 
+      />
+
+
+      <br/><br/>
+      <h4 style={{ display:'flex', margin:"10px"}}> Object 2 - User:</h4>
+      <div style={{fontSize: "0.85em"}}>
+        <label>ID: </label><strong>{state.object2.id}</strong><br/>
+        <label>User Name: </label><strong>{state.object2.username}</strong><br/>
+        <label>Field 1: </label><strong>{state.object2.field1}</strong><br/><br/>
+      </div>
+      <TextField variant="filled"  label="UserName (*direct update)" value={state.object2.username} 
+        onChange = { (ev) => {  dispatch({type: "setUsername", payload: ev.target.value}) }} 
+      />  {'\u00A0'}    
+      <TextField variant="outlined"  label="Field-1 (*indirect update)" 
+        onChange = { (ev) => {  setField1Value(ev.target.value) }} 
+      />
+      <br/>
+      <ButtonForm onClick={() => setField1(field1Value) }> Update Field 1 </ButtonForm>
+      <ButtonForm onClick={() => setField1("-Fixo-") }> Update field 1 "-Fixo-" </ButtonForm>
+
     </CardGray_CST>
-  /*  
-    const { state, dispatch } = useContext(AppContext2)
-    function increment () {  dispatch ( {type: "increment"} )  }
-    function decrement () {  dispatch ( {type: "decrement"} )  }
-    function setField1 (text: string) {  dispatch ( {type: "setField1", payload: text} )  }    
-
-    //Input Sample:    
-    let [field1Value, setField1Value] = useState("")
-    console.log(state)
-    return (  
-      <div>
-        <h1>Drawing Page...</h1>
-        <div style={{fontSize: "0.65em"}}>
-          <label>counter: {state.object1.counter} </label><br/>
-          <label>field1: {state.object1.field1} </label><br/>
-          <label>id: {state.object2.id} </label><br/>
-          <label>id: {state.object2.username} </label><br/>
-          </div>
-      </div> 
-
-*/
-
-/*
-        <div>
-          <h1>Drawing Page...</h1>
-                                     
-          <Card_CST>            
-            <h4> 
-              |React Context-Reeducer-Example: <strong style={ {color:"red"} }>{ state.field1}</strong>
-            </h4>
-            <p>
-              The counter is <span> {state.counter} </span>
-            </p>
-            <p>
-              <button onClick={() => dispatch({type:"increment"})}> + </button>
-              <button onClick={decrement}> - </button>
-            </p>
-            <ButtonForm onClick={() => setField1(field1Value) }> Update Text </ButtonForm>
-            <ButtonForm onClick={() => setField1("-Fixo-") }> Set "-Fixo-" </ButtonForm>
-            <p></p>   
-            <TextField variant="outlined"  label="Direct update"  value={state.field1}
-                onChange = { (ev) => {  setField1(ev.target.value)  }}  
-            />                                  
-            <TextField variant="filled"  label="Indirect update" 
-              onChange = { (ev) => {  setField1Value(ev.target.value) }} 
-            />
-            
-          </Card_CST>
-        </div>
-        */
-    )
+   
+  )
 
 }
 
@@ -171,25 +166,9 @@ const PageDraw_MultiReducerContext = () => {
 
 export { PageDraw_SingleReducerContext, PageDraw_MultiReducerContext }
 
-/*
- <TextField variant="outlined"  label="Direct update"  value={state.field1}
-                onChange = { (ev) => {  setField1(ev.target.value)  }}  
-              />      
 
 
- <input type="text" ref={field1Ref} />
- <TextField id="outlined-basic" label="Outlined" variant="outlined"   value={field1Value}/>
-<TextField id="filled-basic" label="Filled" variant="filled" />
- <TextField id="standard-basic" label="Standard" variant="standard" />
-
-<h4> Counter: <strong style={ {color:"red"} }>{state.counter}</strong> </h4>
 
 
-propertie from TextField dind't work:
- inputProps={{ 
-          inputMode: 'numeric', pattern: '/^-?\d+(?:\.\d+)?$/g'
-         }} 
-
-*/ 
 
 
